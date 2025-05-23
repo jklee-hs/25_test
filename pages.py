@@ -1,25 +1,7 @@
 import streamlit as st
-from streamlit_option_menu import option_menu
 
 # 페이지 설정
 st.set_page_config(page_title="MBTI 직업 추천", page_icon="💼", layout="centered")
-
-# 스타일 적용
-st.markdown("""
-    <style>
-    .main {
-        background-color: #f9f9f9;
-        padding: 2rem;
-        border-radius: 10px;
-    }
-    h1, h3 {
-        text-align: center;
-    }
-    .stSelectbox > div {
-        text-align: center;
-    }
-    </style>
-""", unsafe_allow_html=True)
 
 # MBTI별 추천 직업 데이터
 mbti_jobs = {
@@ -41,21 +23,13 @@ mbti_jobs = {
     "ESFP": ["배우", "MC", "이벤트 코디네이터"]
 }
 
-# 사이드 메뉴
-with st.sidebar:
-    selected = option_menu("메뉴", ["MBTI 직업 추천"], icons=["briefcase"], menu_icon="cast", default_index=0)
+# 앱 UI
+st.markdown("<h1 style='text-align: center;'>💼 MBTI 기반 직업 추천</h1>", unsafe_allow_html=True)
+st.markdown("<p style='text-align: center;'>당신의 MBTI 유형을 선택하면, 어울리는 직업을 추천해드릴게요.</p>", unsafe_allow_html=True)
 
-# 메인 콘텐츠
-if selected == "MBTI 직업 추천":
-    st.markdown("<div class='main'>", unsafe_allow_html=True)
-    st.title("💼 MBTI 기반 직업 추천")
-    st.markdown("MBTI 유형을 선택하면, 그에 어울리는 직업을 추천해드립니다.")
+selected_mbti = st.selectbox("👇 당신의 MBTI를 선택하세요:", sorted(mbti_jobs.keys()))
 
-    selected_mbti = st.selectbox("당신의 MBTI 유형을 선택하세요:", list(mbti_jobs.keys()), index=0)
-
-    if selected_mbti:
-        st.subheader(f"🧠 {selected_mbti} 유형에게 어울리는 직업")
-        for job in mbti_jobs[selected_mbti]:
-            st.markdown(f"- {job}")
-
-    st.markdown("</div>", unsafe_allow_html=True)
+if selected_mbti:
+    st.markdown(f"### 🧠 {selected_mbti} 유형에게 어울리는 직업 추천")
+    for job in mbti_jobs[selected_mbti]:
+        st.markdown(f"- {job}")
